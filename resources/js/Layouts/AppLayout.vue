@@ -284,12 +284,10 @@ const logout = () => {
             <main>
                 <slot />
             </main>
-            <!-- Footer -->
-            <footer class="bg-gray-800 text-white p-4">
-                <div class="container mx-auto text-center">
-                    <a href="https://www.flaticon.com/free-icons/weather" title="weather icons">Weather icons created by Freepik - Flaticon</a>
-                </div>
-            </footer>            
+            <!-- free-icons attribution -->
+            <div class="container mx-auto text-center">
+                <a href="https://www.flaticon.com/free-icons/weather" title="weather icons">Weather icons created by Freepik - Flaticon</a>
+            </div>          
         </div>
     </div>
 </template>
