@@ -1,13 +1,64 @@
 <script setup>
+import { ref } from 'vue';
 import ApplicationLogo from '@/Components/ApplicationLogo.vue';
-import Location from '@/Components/Location/LocationWeather.vue';
+import LocationWeather from '@/Components/Location/LocationWeather.vue';
+
+const city = ref('');
+const state = ref('');
+const isLoading = ref(false);
+const error = ref(null);
+const locations = ref([]);
+
+const submit = async () => {
+  isLoading.value = true;
+  error.value = null;
+  const csrfToken = document.querySelector('meta[name="csrf-token"]');
+
+  if (!csrfToken) {
+    error.value = 'CSRF token not found';
+    isLoading.value = false;
+    return;
+  }
+
+  try {
+    const response = await fetch('/api/weather/add', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
+      },
+      body: JSON.stringify({
+        city: city.value,
+        state: state.value,
+        units: 'metric'
+      }),
+    });
+    console.error(response.ok);
+    if (!response.ok) {
+      throw new Error('Bad response');
+    }
+
+    const data = await response.json();
+    locations.value.push(data);
+    console.log(data);
+  } catch (err) {
+    error.value = 'An error occurred when trying to fetch the data.';
+    console.error(err);
+  } finally {
+    isLoading.value = false;
+  }
+};
+
 </script>
 
 <template>
   <div>
     <div class="p-6 lg:p-8 bg-white border-b border-gray-200">
       <ApplicationLogo class="block h-12 w-auto" />
-      <form class="mt-4">
+      <form
+        @submit.prevent="submit"
+        class="mt-4"
+      >
         <div class="flex space-x-4">
           <div class="flex-1">
             <label
@@ -15,6 +66,7 @@ import Location from '@/Components/Location/LocationWeather.vue';
               class="block text-sm font-medium"
             >City</label>
             <input
+              v-model="city"
               type="text"
               id="city"
               name="city"
@@ -29,6 +81,7 @@ import Location from '@/Components/Location/LocationWeather.vue';
               State
             </label>
             <input
+              v-model="state"
               type="text"
               id="state"
               name="state"
@@ -41,7 +94,7 @@ import Location from '@/Components/Location/LocationWeather.vue';
             type="submit"
             class="px-4 py-2 bg-indigo-600 text-white rounded-md hover:bg-indigo-700"
           >
-            Add
+            Add location
           </button>
           <p class="text-sm text-gray-500">
             You can save up to 3 records
@@ -49,6 +102,15 @@ import Location from '@/Components/Location/LocationWeather.vue';
         </div>
       </form>
     </div>
-    <Location />
+    <div
+      v-for="(location, index) in locations"
+      :key="index"
+    >
+      <LocationWeather
+        :city="location.city || ''"
+        :state="location.state || ''"
+        :forecast="location.forecast"
+      />
+    </div>
   </div>
 </template>
