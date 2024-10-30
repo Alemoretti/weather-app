@@ -1,6 +1,6 @@
 <template>
   <div class="bg-indigo-500 bg-opacity-25 p-6 lg:p-8 pb-0 lg:pb-0">
-    <h2 class="text-lg font-medium text-gray-900">
+    <h2 class="text-lg text-indigo-900 font-bold">
       {{ displayLocation }}
     </h2>
   </div>

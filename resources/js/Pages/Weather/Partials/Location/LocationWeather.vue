@@ -4,19 +4,19 @@
       :city="city"
       :state="state"
     />
-    <WeatherData :forecast="forecast" />
+    <ForecastData :forecast="forecast" />
   </div>
 </template>
 
 <script>
-import LocationHeader from '@/Components/Location/LocationHeader.vue';
-import WeatherData from '@/Components//Location/WeatherData.vue';
+import LocationHeader from '@/Pages/Weather/Partials/Location/LocationHeader.vue';
+import ForecastData from '@/Pages/Weather/Partials/Forecast/ForecastData.vue';
 
 export default {
   name: 'LocationWeather',
   components: {
     LocationHeader,
-    WeatherData
+    ForecastData
   },
   props: {
     name: {
