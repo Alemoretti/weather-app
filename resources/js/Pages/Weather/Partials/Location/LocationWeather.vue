@@ -2,9 +2,9 @@
   <div v-if="location">
     <button
       @click="deleteLocation"
-      class="bg-red-600 text-white rounded-md hover:bg-red-700"
+      class="bg-red-600 text-white hover:bg-red-700 p-1"
     >
-      Delete Location
+      REMOVE
     </button> 
     <LocationHeader :id="props.id" />   
     <ForecastData :forecast="location.forecasts" />
@@ -15,26 +15,26 @@
 </template>
 
 <script setup>
-import { computed } from 'vue';
-import { useLocationStore } from '@/Store/LocationStore';
-import LocationHeader from '@/Pages/Weather/Partials/Location/LocationHeader.vue';
-import ForecastData from '@/Pages/Weather/Partials/Forecast/ForecastData.vue';
+  import { computed } from 'vue';
+  import { useLocationStore } from '@/Store/LocationStore';
+  import LocationHeader from '@/Pages/Weather/Partials/Location/LocationHeader.vue';
+  import ForecastData from '@/Pages/Weather/Partials/Forecast/ForecastData.vue';
 
-const props = defineProps({
-  id: {
-    type: Number,
-    required: true
-  }
-});
+  const props = defineProps({
+    id: {
+      type: Number,
+      required: true
+    }
+  });
 
-const locationStore = useLocationStore();
-const location = computed(() => locationStore.getLocationById(props.id));
+  const locationStore = useLocationStore();
+  const location = computed(() => locationStore.getLocationById(props.id));
 
-const deleteLocation = async () => {
-  try {
-    await locationStore.deleteLocation(props.id);
-  } catch (error) {
-    console.error('Error deleting location:', error);
-  }
-};
+  const deleteLocation = async () => {
+    try {
+      await locationStore.deleteLocation(props.id);
+    } catch (error) {
+      console.error('Error deleting location:', error);
+    }
+  };
 </script>

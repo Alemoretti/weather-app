@@ -16,23 +16,24 @@ export const useLocationStore = defineStore('location', {
     },
     async addLocation(locationData) {
         try {
-        const response = await axios.post('/api/locations', locationData);
-        this.locations.push(response.data);
+            const response = await axios.post('/api/locations', locationData);
+            this.locations.push(response.data);
         } catch (error) {
-        console.error('Error adding location:', error);
+            console.error('Error adding location:', error);
         }
     },
     async deleteLocation(locationId) {
         try {
-        await axios.delete(`/api/locations/${locationId}`);
-        this.locations = this.locations.filter(location => location.id !== locationId);
+            await axios.delete(`/api/locations/${locationId}`);
+            this.locations = this.locations.filter(location => location.id !== locationId);
         } catch (error) {
-        console.error('Error deleting location:', error);
+            console.error('Error deleting location:', error);
         }
     },
   },
   getters: {
     getLocations: (state) => state.locations,
-    getLocationById: (state) => (id) => state.locations.find(location => location.id === id)
+    getLocationById: (state) => (id) => state.locations.find(location => location.id === id),
+    getLocationCount: (state) => state.locations.length
   }
 });
