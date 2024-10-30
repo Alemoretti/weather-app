@@ -1,8 +1,11 @@
 <template>
   <form
-    class="mt-4"
+    class="mt-4 mb-10 border-b-2 pb-10"
     @submit.prevent="submit"
   >
+    <h1 class="text-indigo-500 mb-4 font-bold">
+      Insert the city and state of the location you want to add
+    </h1>
     <div class="flex space-x-4">
       <div class="flex-1">
         <label
@@ -46,12 +49,12 @@
     <div class="mt-4 flex items-center space-x-2">
       <button
         type="submit"
-        class="px-4 py-2 bg-indigo-600 text-white rounded-md hover:bg-indigo-700"
+        class="px-4 py-2 bg-indigo-600 text-white  hover:bg-indigo-700"
       >
-        Add location
+        REGISTER
       </button>
       <p class="text-sm text-gray-500">
-        You can save up to 3 records
+        You can register up to 3 locations
       </p>
     </div>
     <div

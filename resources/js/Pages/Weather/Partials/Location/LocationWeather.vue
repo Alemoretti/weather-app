@@ -2,9 +2,9 @@
   <div v-if="location">
     <button
       @click="deleteLocation"
-      class="bg-red-600 text-white rounded-md hover:bg-red-700"
+      class="bg-red-600 text-white hover:bg-red-700 p-1"
     >
-      Delete Location
+      REMOVE
     </button> 
     <LocationHeader :id="props.id" />   
     <ForecastData :forecast="location.forecasts" />
