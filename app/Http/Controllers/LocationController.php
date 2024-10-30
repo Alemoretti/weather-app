@@ -21,7 +21,7 @@ class LocationController extends Controller
     public function index()
     {
         $user = Auth::user();
-        $locations = Location::where('user_id', $user->id)->get();
+        $locations = Location::with('forecasts')->where('user_id', $user->id)->get();
         return response()->json($locations);
     }
 
@@ -63,7 +63,7 @@ class LocationController extends Controller
             $forecast->weather_icon = $forecastData['weather_icon'];
             $forecast->save();
         }
-
+        
         return response()->json($location->load('forecasts'), 201);
     }
 
@@ -76,7 +76,7 @@ class LocationController extends Controller
             return response()->json(['error' => 'Location not Found'], 404);
         }
 
-        if (Gate::denies('delete-location', $user)) {
+        if (Gate::denies('delete-location', $location)) {
             return response()->json(['error' => 'Unauthorized'], 403);
         }
 
