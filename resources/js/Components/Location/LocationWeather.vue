@@ -19,11 +19,7 @@ export default {
     WeatherData
   },
   props: {
-    city: {
-      type: String,
-      required: true
-    },
-    state: {
+    name: {
       type: String,
       required: true
     },
@@ -31,6 +27,14 @@ export default {
       type: Object,
       required: true
     }
-  }
+  },
+  computed: {
+    city() {
+      return this.name.split(', ')[0] || '';
+    },
+    state() {
+      return this.name.split(', ')[1] || '';
+    }
+  }  
 };
 </script>

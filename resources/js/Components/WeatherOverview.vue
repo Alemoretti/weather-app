@@ -39,7 +39,8 @@ const submit = async () => {
       withCredentials: true
     });
     locations.value.push(response.data);
-
+    city.value = '';
+    state.value = '';
   } catch (err) {
     if (err.response && err.response.status === 401) {
       error.value = 'Unauthorized: Please log in.';
@@ -132,9 +133,8 @@ const submit = async () => {
       :key="index"
     >
       <LocationWeather
-        :city="location.city || ''"
-        :state="location.state || ''"
-        :forecast="location.forecast"
+        :name="location.name"
+        :forecast="location.forecasts"
       />
     </div>
   </div>

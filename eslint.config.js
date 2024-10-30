@@ -9,6 +9,6 @@ export default [
   {languageOptions: { globals: globals.browser }},
   pluginJs.configs.recommended,
   ...tseslint.configs.recommended,
-  ...pluginVue.configs["flat/recommended"],
+  ...pluginVue.configs["flat/strongly-recommended"],
   {files: ["**/*.vue"], languageOptions: {parserOptions: {parser: tseslint.parser}}},
 ];

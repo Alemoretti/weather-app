@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\LocationRequest;
+use App\Models\Forecast;
 use App\Models\Location;
 use App\Services\WeatherService;
 use Illuminate\Support\Facades\Auth;
@@ -44,14 +45,26 @@ class LocationController extends Controller
             ], $result['status']);
         }
 
+        $name = trim($city . ($city && $state ? ', ' : '') . $state);
+
         $location = new Location();
-        $location->city = $request->input('city');
-        $location->state = $request->input('state');
-        $location->units = $request->input('units');
+        $location->name = $name;
         $location->user_id = $user->id;
         $location->save();
 
-        return response()->json($location, 201);
+
+        foreach ($result['forecast'] as $date => $forecastData) {
+            $forecast = new Forecast();
+            $forecast->location_id = $location->id;
+            $forecast->date = $date;
+            $forecast->min_temp = $forecastData['min_temp'];
+            $forecast->max_temp = $forecastData['max_temp'];
+            $forecast->weather = $forecastData['weather'];
+            $forecast->weather_icon = $forecastData['weather_icon'];
+            $forecast->save();
+        }
+
+        return response()->json($location->load('forecasts'), 201);
     }
 
     public function destroy($id)
