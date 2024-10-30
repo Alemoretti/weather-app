@@ -1,6 +1,6 @@
 <template>
   <div>
-    <LocationForm />
+    <LocationForm :count="count" />
     <div
       v-for="(location) in locations"
       :key="location.id"
@@ -12,17 +12,18 @@
 </template>
   
 <script setup>
-import LocationForm from '@/Pages/Weather/Partials/Location/LocationForm.vue';
-import LocationWeather from '@/Pages/Weather/Partials/Location/LocationWeather.vue';
-import { onMounted, computed } from 'vue';
-import { useLocationStore } from '@/Store/LocationStore';
+  import LocationForm from '@/Pages/Weather/Partials/Location/LocationForm.vue';
+  import LocationWeather from '@/Pages/Weather/Partials/Location/LocationWeather.vue';
+  import { onMounted, computed } from 'vue';
+  import { useLocationStore } from '@/Store/LocationStore';
 
 
-const locationStore = useLocationStore();
+  const locationStore = useLocationStore();
 
-onMounted(() => {
-  locationStore.fetchLocations();
-});
+  onMounted(() => {
+    locationStore.fetchLocations();
+  });
 
-const locations = computed(() => locationStore.getLocations);
+  const locations = computed(() => locationStore.getLocations);
+  const count = computed(() => locationStore.getLocationCount);
 </script>

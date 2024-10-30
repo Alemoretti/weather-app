@@ -1,8 +1,3 @@
-<script setup>
-import AppLayout from '@/Layouts/AppLayout.vue';
-import BaseLocations from '@/Pages/Weather/Partials/Location/BaseLocations.vue';
-</script>
-
 <template>
   <AppLayout title="Dashboard">
     <template #header>
@@ -24,3 +19,8 @@ import BaseLocations from '@/Pages/Weather/Partials/Location/BaseLocations.vue';
     </div>
   </AppLayout>
 </template>
+
+<script setup>
+  import AppLayout from '@/Layouts/AppLayout.vue';
+  import BaseLocations from '@/Pages/Weather/Partials/Location/BaseLocations.vue';
+</script>

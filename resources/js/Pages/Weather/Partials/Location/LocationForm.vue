@@ -1,5 +1,12 @@
 <template>
+  <p
+    v-if="count > 2"
+    class="text-red-500"
+  >
+    You have reached the maximum number of locations. Please delete a location before adding more.
+  </p>
   <form
+    v-else
     class="mt-4 mb-10 border-b-2 pb-10"
     @submit.prevent="submit"
   >
@@ -67,46 +74,46 @@
 </template>
 
 <script setup>
-import { ref } from 'vue';
-import { useLocationStore } from '@/Store/LocationStore';
-import Spinner from '@/Components/LoadingSpinner.vue';
+  import { ref } from 'vue';
+  import { useLocationStore } from '@/Store/LocationStore';
+  import Spinner from '@/Components/LoadingSpinner.vue';
 
-const locationStore = useLocationStore();
-const city = ref('');
-const state = ref('');
-const isLoading = ref(false);
-const validationErrors = ref({});
-
-const submit = async () => {
-  isLoading.value = true;
-  validationErrors.value = {};
-  const csrfToken = document.querySelector('meta[name="csrf-token"]');
-
-  if (!csrfToken) {
-    validationErrors.value = { csrf: ['CSRF token not found'] };
-    isLoading.value = false;
-    return;
-  }
-
-  try {
-    await locationStore.addLocation({
-      city: city.value || '',
-      state: state.value || '',
-      units: 'metric'
-    });
-
-    city.value = '';
-    state.value = '';
- 
-  } catch (err) {
-    if (err.response && err.response.status === 422) {
-      validationErrors.value = err.response.data.errors;
-    } else {
-      validationErrors.value = { general: ['An error occurred when trying to fetch the locations data.'] };
+  defineProps({
+    count: {
+      type: Number,
+      required: true
     }
-    console.error(err);
-  } finally {
-    isLoading.value = false;
-  }
-};
+  });
+
+  const locationStore = useLocationStore();
+  const city = ref('')
+  const state = ref('')
+  const isLoading = ref(false)
+  const validationErrors = ref({})
+
+  const submit = async () => {
+    isLoading.value = true
+    validationErrors.value = {};
+
+    try {
+      await locationStore.addLocation({
+        city: city.value || '',
+        state: state.value || '',
+        units: 'metric'
+      });
+
+      city.value = '';
+      state.value = '';
+  
+    } catch (err) {
+      if (err.response && err.response.status === 422) {
+        validationErrors.value = err.response.data.errors
+      } else {
+        validationErrors.value = { general: ['An error occurred when trying to fetch the locations data.'] };
+      }
+      console.error(err)
+    } finally {
+      isLoading.value = false
+    }
+  };
 </script>
