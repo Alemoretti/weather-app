@@ -2,10 +2,13 @@
 namespace App\Services;
 
 use Illuminate\Support\Facades\Http;
+use App\Models\Forecast;
+use App\Models\Location;
+
 
 class WeatherService
 {
-    public function getWeatherData($city, $state, $units)
+    public function getWeatherData($city, $state, $units, $userId)
     {
         $apiUrl = env('WEATHER_API_URL');
         
@@ -51,9 +54,26 @@ class WeatherService
                 }
             }        
 
+            // Unit in Celsius for now, could be improved to be user selected
             foreach ($forecast as $date => $data) {
                 $forecast[$date]['min_temp'] = round($data['min_temp']) . '°C';
                 $forecast[$date]['max_temp'] = round($data['max_temp']) . '°C';
+            }
+
+            $location = Location::create([
+                'user_id' => $userId,
+                'name' => $city
+            ]);
+
+            foreach ($forecast as $date => $data) {
+                Forecast::create([
+                    'location_id' => $location->id,
+                    'date' => $date,
+                    'min_temp' => $data['min_temp'],
+                    'max_temp' => $data['max_temp'],
+                    'weather' => $data['weather'],
+                    'weather_icon' => $data['weather_icon'],
+                ]);
             }
 
             return [

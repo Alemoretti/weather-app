@@ -2,6 +2,7 @@
 import { ref } from 'vue';
 import ApplicationLogo from '@/Components/ApplicationLogo.vue';
 import LocationWeather from '@/Components/Location/LocationWeather.vue';
+import axios from 'axios';
 
 const city = ref('');
 const state = ref('');
@@ -13,7 +14,8 @@ const submit = async () => {
   isLoading.value = true;
   error.value = null;
   const csrfToken = document.querySelector('meta[name="csrf-token"]');
-
+  // check if log exists to send the request
+  console.log('CSRF Token:', csrfToken ? csrfToken.getAttribute('content') : 'Not found');
   if (!csrfToken) {
     error.value = 'CSRF token not found';
     isLoading.value = false;
@@ -21,26 +23,21 @@ const submit = async () => {
   }
 
   try {
-    const response = await fetch('/api/weather/add', {
-      method: 'POST',
+    const response = await axios.put('/api/locations/create', {
+      city: city.value || '',
+      state: state.value || '',
+      units: 'metric'
+    }, {
       headers: {
         'Content-Type': 'application/json',
-        'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
+        'Accept': 'application/json',
+        'X-CSRF-TOKEN': csrfToken.getAttribute('content'),
+        'Authorization': 'Bearer ' + csrfToken.getAttribute('content')
       },
-      body: JSON.stringify({
-        city: city.value,
-        state: state.value,
-        units: 'metric'
-      }),
+      withCredentials: true
     });
-    console.error(response.ok);
-    if (!response.ok) {
-      throw new Error('Bad response');
-    }
+    locations.value.push(response.data);
 
-    const data = await response.json();
-    locations.value.push(data);
-    console.log(data);
   } catch (err) {
     error.value = 'An error occurred when trying to fetch the data.';
     console.error(err);
