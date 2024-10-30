@@ -21,6 +21,7 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
-        Gate::define('create-location', [LocationPolicy::class, 'create']);
+        Gate::define('store-location', [LocationPolicy::class, 'store']);
+        Gate::define('delete-location', [LocationPolicy::class, 'delete']);
     }
 }

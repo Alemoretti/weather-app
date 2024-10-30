@@ -28,7 +28,7 @@ class LocationController extends Controller
     {
         $user = Auth::user();
 
-        if (Gate::denies('create-location', $user)) {
+        if (Gate::denies('store-location', $user)) {
             return response()->json(['error' => 'Unauthorized'], 403);
         }
         
@@ -62,9 +62,6 @@ class LocationController extends Controller
         if (!$location || $location->user_id != $user->id) {
             return response()->json(['error' => 'Location not Found'], 404);
         }
-
-        // Todo: implement the delete policy later
-
 
         if (Gate::denies('delete-location', $user)) {
             return response()->json(['error' => 'Unauthorized'], 403);
