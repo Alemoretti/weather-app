@@ -7,6 +7,7 @@
       class="mt-4"
     >
       <LocationWeather
+        :id="location.id"
         :name="location.name"
         :forecast="location.forecasts"
       />
