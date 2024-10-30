@@ -3,6 +3,7 @@ import { ref } from 'vue';
 import ApplicationLogo from '@/Components/ApplicationLogo.vue';
 import LocationWeather from '@/Components/Location/LocationWeather.vue';
 import axios from 'axios';
+import Spinner from '@/Components/Spinner/LoadingSpinner.vue';
 
 const city = ref('');
 const state = ref('');
@@ -14,8 +15,7 @@ const submit = async () => {
   isLoading.value = true;
   error.value = null;
   const csrfToken = document.querySelector('meta[name="csrf-token"]');
-  // check if log exists to send the request
-  console.log('CSRF Token:', csrfToken ? csrfToken.getAttribute('content') : 'Not found');
+
   if (!csrfToken) {
     error.value = 'CSRF token not found';
     isLoading.value = false;
@@ -39,7 +39,13 @@ const submit = async () => {
     locations.value.push(response.data);
 
   } catch (err) {
-    error.value = 'An error occurred when trying to fetch the data.';
+    if (err.response && err.response.status === 401) {
+      error.value = 'Unauthorized: Please log in.';
+    } else if (err.response && err.response.status === 403) {
+      error.value = 'Forbidden: You do not have permission to perform this action.';
+    } else {
+      error.value = 'An error occurred when trying to fetch the data.';
+    }
     console.error(err);
   } finally {
     isLoading.value = false;
@@ -53,8 +59,8 @@ const submit = async () => {
     <div class="p-6 lg:p-8 bg-white border-b border-gray-200">
       <ApplicationLogo class="block h-12 w-auto" />
       <form
-        @submit.prevent="submit"
         class="mt-4"
+        @submit.prevent="submit"
       >
         <div class="flex space-x-4">
           <div class="flex-1">
@@ -63,9 +69,9 @@ const submit = async () => {
               class="block text-sm font-medium"
             >City</label>
             <input
+              id="city"
               v-model="city"
               type="text"
-              id="city"
               name="city"
               class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm"
             >
@@ -78,9 +84,9 @@ const submit = async () => {
               State
             </label>
             <input
+              id="state"
               v-model="state"
               type="text"
-              id="state"
               name="state"
               class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm"
             >
@@ -98,6 +104,12 @@ const submit = async () => {
           </p>
         </div>
       </form>
+      <div
+        v-if="isLoading"
+        class="mt-4 flex justify-center"
+      >
+        <Spinner />
+      </div>      
     </div>
     <div
       v-for="(location, index) in locations"
