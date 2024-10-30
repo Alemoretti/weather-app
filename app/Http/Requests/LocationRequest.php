@@ -22,8 +22,8 @@ class LocationRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'city' => 'required_without:state|string|min:2',
-            'state' => 'required_without:city|string|min:2',
+            'city' => 'nullable|required_without:state|string|min:2',
+            'state' => 'nullable|required_without:city|string|min:2',
         ];
     }
 

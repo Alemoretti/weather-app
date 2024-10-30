@@ -10,10 +10,12 @@ const state = ref('');
 const isLoading = ref(false);
 const error = ref(null);
 const locations = ref([]);
+const validationErrors = ref({});
 
 const submit = async () => {
   isLoading.value = true;
   error.value = null;
+  validationErrors.value = {};
   const csrfToken = document.querySelector('meta[name="csrf-token"]');
 
   if (!csrfToken) {
@@ -43,6 +45,8 @@ const submit = async () => {
       error.value = 'Unauthorized: Please log in.';
     } else if (err.response && err.response.status === 403) {
       error.value = 'Forbidden: You do not have permission to perform this action.';
+    } else if (err.response && err.response.status === 422) {
+      validationErrors.value = err.response.data.errors;      
     } else {
       error.value = 'An error occurred when trying to fetch the data.';
     }
@@ -75,6 +79,12 @@ const submit = async () => {
               name="city"
               class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm"
             >
+            <div
+              v-if="validationErrors.city"
+              class="text-red-500 text-sm mt-1"
+            >
+              {{ validationErrors.city[0] }}
+            </div>            
           </div>
           <div class="flex-1">
             <label 
@@ -90,6 +100,12 @@ const submit = async () => {
               name="state"
               class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm"
             >
+            <div
+              v-if="validationErrors.state"
+              class="text-red-500 text-sm mt-1"
+            >
+              {{ validationErrors.state[0] }}
+            </div>            
           </div>
         </div>
         <div class="mt-4 flex items-center space-x-2">
