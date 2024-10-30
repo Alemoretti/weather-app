@@ -63,7 +63,7 @@ class LocationController extends Controller
             $forecast->weather_icon = $forecastData['weather_icon'];
             $forecast->save();
         }
-
+        
         return response()->json($location->load('forecasts'), 201);
     }
 
