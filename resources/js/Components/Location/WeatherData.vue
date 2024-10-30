@@ -10,8 +10,8 @@
           :alt="day.weather"
         >
         <div class="ms-3">
-          <h2 class="text-xl font-semibold text-gray-900">
-            {{ date }}
+          <h2 class="text-sm font-semibold text-gray-900">
+            {{ formatDate(day.date) }}
           </h2>
           <p class="text-gray-700">
             {{ day.weather }}
@@ -35,6 +35,12 @@
       forecast: {
         type: Object,
         required: true
+      }
+    },
+    methods: {
+      formatDate(date) {
+        const options = { year: 'numeric', month: 'long', day: 'numeric' };
+        return new Date(date).toLocaleDateString('en-US', options);
       }
     }
   };
