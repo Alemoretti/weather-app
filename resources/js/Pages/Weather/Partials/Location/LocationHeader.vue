@@ -5,32 +5,34 @@
     </h2>
   </div>
 </template>
-  
-  <script>
-  export default {
-    name: 'LocationHeader',
-    props: {
-      city: {
-        type: String,
-        required: true
-      },
-      state: {
-        type: String,
-        required: true
-      }
-    },
-    computed: {
-    displayLocation() {
-      if (this.city && this.state) {
-        return `${this.city}, ${this.state}`;
-      } else if (this.city) {
-        return this.city;
-      } else if (this.state) {
-        return this.state;
-      } else {
-        return '';
-      }
+
+<script setup>
+import { computed } from 'vue';
+import { useLocationStore } from '@/Store/LocationStore';
+
+const props = defineProps({
+  id: {
+    type: Number,
+    required: true
+  }
+});
+
+const locationStore = useLocationStore();
+const location = computed(() => locationStore.getLocationById(props.id));
+
+const displayLocation = computed(() => {
+  if (location.value) {
+    const nameParts = location.value.name.split(', ');
+    const city = nameParts[0] || '';
+    const state = nameParts.length > 1 ? nameParts[1] : '';
+    if (city && state) {
+      return `${city}, ${state}`;
+    } else if (city) {
+      return city;
+    } else if (state) {
+      return state;
     }
   }
-  };
-  </script>
+  return 'Location not found';
+});
+</script>

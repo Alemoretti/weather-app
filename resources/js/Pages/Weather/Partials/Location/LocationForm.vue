@@ -64,11 +64,11 @@
 </template>
 
 <script setup>
-import { ref, defineEmits } from 'vue';
-import axios from 'axios';
+import { ref } from 'vue';
+import { useLocationStore } from '@/Store/LocationStore';
 import Spinner from '@/Components/LoadingSpinner.vue';
 
-const emit = defineEmits(['locationAdded']);
+const locationStore = useLocationStore();
 const city = ref('');
 const state = ref('');
 const isLoading = ref(false);
@@ -86,29 +86,20 @@ const submit = async () => {
   }
 
   try {
-    const response = await axios.post('/api/locations', {
+    await locationStore.addLocation({
       city: city.value || '',
       state: state.value || '',
       units: 'metric'
-    }, {
-      headers: {
-        'Content-Type': 'application/json',
-        'Accept': 'application/json',
-        'X-CSRF-TOKEN': csrfToken.getAttribute('content')
-      },
-      withCredentials: true
     });
 
     city.value = '';
     state.value = '';
-
-    emit('locationAdded', response.data);
-
+ 
   } catch (err) {
     if (err.response && err.response.status === 422) {
       validationErrors.value = err.response.data.errors;
     } else {
-      validationErrors.value = { general: ['An error occurred when trying to fetch the data.'] };
+      validationErrors.value = { general: ['An error occurred when trying to fetch the locations data.'] };
     }
     console.error(err);
   } finally {

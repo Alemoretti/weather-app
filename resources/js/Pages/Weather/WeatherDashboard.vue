@@ -1,14 +1,6 @@
 <script setup>
 import AppLayout from '@/Layouts/AppLayout.vue';
 import BaseLocations from '@/Pages/Weather/Partials/Location/BaseLocations.vue';
-import { defineProps } from 'vue';
-
-defineProps({
-  locations: {
-    type: Array,
-    default: () => []
-  }
-});
 </script>
 
 <template>
@@ -24,7 +16,7 @@ defineProps({
         <div class="bg-white overflow-hidden shadow-xl sm:rounded-lg">
           <div>
             <div class="p-6 lg:p-8 bg-white">
-              <BaseLocations :locations="locations" />
+              <BaseLocations />
             </div>
           </div>
         </div>

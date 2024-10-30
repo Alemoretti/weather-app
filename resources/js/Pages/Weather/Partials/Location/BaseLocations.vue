@@ -1,36 +1,28 @@
 <template>
   <div>
-    <RegisterLocationForm @location-added="handleLocationAdded" />
+    <LocationForm />
     <div
-      v-for="(location, index) in props.locations"
-      :key="index"
+      v-for="(location) in locations"
+      :key="location.id"
       class="mt-4"
     >
-      <LocationWeather
-        :id="location.id"
-        :name="location.name"
-        :forecast="location.forecasts"
-      />
+      <LocationWeather :id="location.id" />
     </div>
   </div>
 </template>
   
 <script setup>
-import { defineEmits } from 'vue';
-import RegisterLocationForm from '@/Pages/Weather/Partials/Location/LocationForm.vue';
+import LocationForm from '@/Pages/Weather/Partials/Location/LocationForm.vue';
 import LocationWeather from '@/Pages/Weather/Partials/Location/LocationWeather.vue';
-import { defineProps } from 'vue';
+import { onMounted, computed } from 'vue';
+import { useLocationStore } from '@/Store/LocationStore';
 
-const props = defineProps({
-  locations: {
-    type: Array,
-    default: () => []
-  }
+
+const locationStore = useLocationStore();
+
+onMounted(() => {
+  locationStore.fetchLocations();
 });
 
-const emit = defineEmits(['location-added']);
-
-const handleLocationAdded = (newLocation) => {
-  emit('location-added', newLocation);
-};
+const locations = computed(() => locationStore.getLocations);
 </script>

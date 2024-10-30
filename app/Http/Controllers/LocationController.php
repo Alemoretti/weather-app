@@ -21,7 +21,7 @@ class LocationController extends Controller
     public function index()
     {
         $user = Auth::user();
-        $locations = Location::where('user_id', $user->id)->get();
+        $locations = Location::with('forecasts')->where('user_id', $user->id)->get();
         return response()->json($locations);
     }
 
