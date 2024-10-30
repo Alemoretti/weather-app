@@ -74,7 +74,7 @@
 </template>
 
 <script setup>
-  import { ref } from 'vue';
+  import { ref, computed } from 'vue';
   import { useLocationStore } from '@/Store/LocationStore';
   import Spinner from '@/Components/LoadingSpinner.vue';
 
@@ -89,11 +89,10 @@
   const city = ref('')
   const state = ref('')
   const isLoading = ref(false)
-  const validationErrors = ref({})
+  const validationErrors = computed(() => locationStore.getErrors);
 
   const submit = async () => {
     isLoading.value = true
-    validationErrors.value = {};
 
     try {
       await locationStore.addLocation({
@@ -106,12 +105,7 @@
       state.value = '';
   
     } catch (err) {
-      if (err.response && err.response.status === 422) {
-        validationErrors.value = err.response.data.errors
-      } else {
-        validationErrors.value = { general: ['An error occurred when trying to fetch the locations data.'] };
-      }
-      console.error(err)
+      console.error(err);
     } finally {
       isLoading.value = false
     }
