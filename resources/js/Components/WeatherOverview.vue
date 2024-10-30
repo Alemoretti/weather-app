@@ -23,7 +23,7 @@ const submit = async () => {
   }
 
   try {
-    const response = await axios.put('/api/locations/create', {
+    const response = await axios.post('/api/locations', {
       city: city.value || '',
       state: state.value || '',
       units: 'metric'
