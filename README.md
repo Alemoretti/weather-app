@@ -1,8 +1,13 @@
+
+
 # Weather App
 
 This Weather App allows users to check the weather around the world. Users can add locations, view weather forecasts, and manage their favorite locations.
 Jetstream was used in Laravel’s installation since it already provides login and registration features.
 I kept the registration form created by Jetstream although it wasn’t needed. I can remove if necessary.
+
+![Captura de tela 2024-10-31 145519](https://github.com/user-attachments/assets/cec35232-a7f2-40d6-a658-c54ad0e0af01)
+
 
 ## Features
 
