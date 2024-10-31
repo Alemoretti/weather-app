@@ -9,6 +9,7 @@
 <script setup>
   import { computed } from 'vue';
   import { useLocationStore } from '@/Store/LocationStore';
+  import { Location } from '@/types';
 
   const props = defineProps({
     id: {
@@ -18,10 +19,10 @@
   });
 
   const locationStore = useLocationStore();
-  const location = computed(() => locationStore.getLocationById(props.id));
+  const location = computed<Location | undefined>(() => locationStore.getLocationById(props.id));
 
   // Computed property to format the location name for display removing comma
-  const displayLocation = computed(() => {
+  const displayLocation = computed<string>(() => {
     if (location.value) {
       const nameParts = location.value.name.split(', ');
       return nameParts.filter(Boolean).join(', ');

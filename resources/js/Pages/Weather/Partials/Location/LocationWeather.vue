@@ -14,27 +14,28 @@
   </div>
 </template>
 
-<script setup>
-  import { computed } from 'vue';
-  import { useLocationStore } from '@/Store/LocationStore';
-  import LocationHeader from '@/Pages/Weather/Partials/Location/LocationHeader.vue';
-  import ForecastData from '@/Pages/Weather/Partials/Forecast/ForecastData.vue';
+<script setup lang="ts">
+import { computed } from 'vue';
+import { useLocationStore } from '@/Store/LocationStore';
+import LocationHeader from '@/Pages/Weather/Partials/Location/LocationHeader.vue';
+import ForecastData from '@/Pages/Weather/Partials/Forecast/ForecastData.vue';
+import { Location } from '@/types';
 
-  const props = defineProps({
-    id: {
-      type: Number,
-      required: true
-    }
-  });
+const props = defineProps({
+  id: {
+    type: Number,
+    required: true
+  }
+});
 
-  const locationStore = useLocationStore();
-  const location = computed(() => locationStore.getLocationById(props.id));
+const locationStore = useLocationStore();
+const location = computed<Location | undefined>(() => locationStore.getLocationById(props.id));
 
-  const deleteLocation = async () => {
-    try {
-      await locationStore.deleteLocation(props.id);
-    } catch (error) {
-      console.error('Error deleting location:', error);
-    }
-  };
+const deleteLocation = async () => {
+  try {
+    await locationStore.deleteLocation(props.id);
+  } catch (error) {
+    console.error('Error deleting location:', error);
+  }
+};
 </script>
