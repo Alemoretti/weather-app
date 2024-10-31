@@ -13,7 +13,7 @@ it('can create a location with valid input', function () {
     $mock = Mockery::mock(LocationController::class);
     $mock->shouldReceive('store')
         ->once()
-        ->andReturnUsing(function ($request) use ($user) {
+        ->andReturnUsing(function (LocationRequest $request) use ($user) {
             // Verify the correct input data
             expect($request->input('city'))->toBe('Test City');
             expect($request->input('state'))->toBe('Test State');
