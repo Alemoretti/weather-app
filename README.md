@@ -6,7 +6,7 @@ This Weather App allows users to check the weather around the world. Users can a
 Jetstream was used in Laravel’s installation since it already provides login and registration features.
 I kept the registration form created by Jetstream although it wasn’t needed. I can remove if necessary.
 
-![Captura de tela 2024-10-31 145519](https://github.com/user-attachments/assets/cec35232-a7f2-40d6-a658-c54ad0e0af01)
+![Captura de tela 2024-10-31 152725](https://github.com/user-attachments/assets/cb5f973c-8e1e-4c67-9bc8-ea8c7e727a1d)
 
 
 ## Features
@@ -52,4 +52,4 @@ Open your browser and navigate to http://localhost:8000 to access the Weather Ap
 - PHP 8.x
 - Composer
 - Node.js and npm
-- SQL, MySQL or any other supported database. The project was created using SQLite, but you can change the database c
+- SQL, MySQL or any other supported database. The project was created using SQLite
