@@ -11,7 +11,7 @@ class WeatherService
     public function getWeatherData($city, $state, $units, $userId)
     {
         $apiUrl = env('WEATHER_API_URL');
-        
+
         $response = Http::get($apiUrl, [
             'q' => $city . ',' . $state,
             'units' => $units,
