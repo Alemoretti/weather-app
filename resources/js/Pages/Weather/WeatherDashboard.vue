@@ -20,7 +20,7 @@
   </AppLayout>
 </template>
 
-<script setup>
-  import AppLayout from '@/Layouts/AppLayout.vue';
-  import BaseLocations from '@/Pages/Weather/Partials/Location/BaseLocations.vue';
+<script setup lang="ts">
+import AppLayout from '@/Layouts/AppLayout.vue';
+import BaseLocations from '@/Pages/Weather/Partials/Location/BaseLocations.vue';
 </script>

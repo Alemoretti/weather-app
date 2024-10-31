@@ -6,26 +6,27 @@
   </div>
 </template>
 
-<script setup>
-  import { computed } from 'vue';
-  import { useLocationStore } from '@/Store/LocationStore';
+<script setup lang="ts">
+import { computed } from 'vue'
+import { useLocationStore } from '@/Store/LocationStore'
+import { Location } from '@/types'
 
-  const props = defineProps({
-    id: {
-      type: Number,
-      required: true
-    }
-  });
+const props = defineProps({
+  id: {
+    type: Number,
+    default: 0
+  }
+})
 
-  const locationStore = useLocationStore();
-  const location = computed(() => locationStore.getLocationById(props.id));
+const locationStore = useLocationStore()
+const location = computed<Location | undefined>(() => locationStore.getLocationById(props.id))
 
-  // Computed property to format the location name for display removing comma
-  const displayLocation = computed(() => {
-    if (location.value) {
-      const nameParts = location.value.name.split(', ');
-      return nameParts.filter(Boolean).join(', ');
-    }
-    return '';
-  });
+// Computed property to format the location name for display removing comma
+const displayLocation = computed<string>(() => {
+  if (location.value) {
+    const nameParts = location.value.name.split(', ')
+    return nameParts.filter(Boolean).join(', ')
+  }
+  return ''
+});
 </script>

@@ -11,19 +11,19 @@
   </div>
 </template>
   
-<script setup>
-  import LocationForm from '@/Pages/Weather/Partials/Location/LocationForm.vue';
-  import LocationWeather from '@/Pages/Weather/Partials/Location/LocationWeather.vue';
-  import { onMounted, computed } from 'vue';
-  import { useLocationStore } from '@/Store/LocationStore';
+<script setup lang="ts">
+import LocationForm from '@/Pages/Weather/Partials/Location/LocationForm.vue';
+import LocationWeather from '@/Pages/Weather/Partials/Location/LocationWeather.vue';
+import { onMounted, computed } from 'vue';
+import { Location } from '@/types'
+import { useLocationStore } from '@/Store/LocationStore';
 
+const locationStore = useLocationStore();
 
-  const locationStore = useLocationStore();
+onMounted(() => {
+  locationStore.fetchLocations();
+});
 
-  onMounted(() => {
-    locationStore.fetchLocations();
-  });
-
-  const locations = computed(() => locationStore.getLocations);
-  const count = computed(() => locationStore.getLocationCount);
+const locations = computed<Location[]>(() => locationStore.getLocations);
+const count = computed<number>(() => locationStore.getLocationCount);
 </script>

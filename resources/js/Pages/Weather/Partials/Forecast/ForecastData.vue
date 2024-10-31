@@ -1,7 +1,7 @@
 <template>
   <div class="bg-indigo-500 bg-opacity-25 grid grid-cols-1 md:grid-cols-3 gap-6 pt-2 lg:gap-8 p-6 lg:p-8 lg:pt-2">
     <div
-      v-for="(day, date) in forecast"
+      v-for="(day, date) in props.forecast"
       :key="date"
     >
       <div class="flex items-center">
@@ -28,20 +28,16 @@
   </div>
 </template>
   
-  <script>
-  export default {
-    name: 'WeatherData',
-    props: {
-      forecast: {
-        type: Object,
-        required: true
-      }
-    },
-    methods: {
-      formatDate(date) {
-        const options = { year: 'numeric', month: 'long', day: 'numeric' };
-        return new Date(date).toLocaleDateString('en-US', options);
-      }
-    }
-  };
-  </script>
+<script setup lang="ts">
+const props = defineProps({
+  forecast: {
+    type: Object,
+    required: true
+  }
+});
+
+const formatDate = (date: string): string => {
+  const options = { year: 'numeric' as const, month: 'long' as const, day: 'numeric' as const };
+  return new Date(date).toLocaleDateString('en-US', options);
+};
+</script>
