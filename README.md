@@ -47,4 +47,4 @@ Open your browser and navigate to http://localhost:8000 to access the Weather Ap
 - PHP 8.x
 - Composer
 - Node.js and npm
-- SQL, MySQL or any other supported database. The project was created using SQLite, but you can change the database configuration in the .env file to use another supported database.
+- SQL, MySQL or any other supported database. The project was created using SQLite, but you can change the database c
