@@ -5,6 +5,7 @@ namespace App\Providers;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Support\Facades\Gate;
 use App\Policies\LocationPolicy;
+use App\Services\WeatherService;
 
 class AppServiceProvider extends ServiceProvider
 {
