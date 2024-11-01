@@ -45,13 +45,13 @@ class LocationService
             ], $result['status']);
         }
         // Create location
-        $location = new Location($locationDTO->toArray());
+        $location = new Location((array) $locationDTO);
         $location->save();
 
         // Create forecasts
         foreach ($result['forecast'] as $date => $forecastData) {
             $forecastDTO = new ForecastDTO($location->id, $date, $forecastData);
-            $forecast = new Forecast($forecastDTO->toArray());
+            $forecast = new Forecast((array) $forecastDTO);
             $forecast->save();
         }
 

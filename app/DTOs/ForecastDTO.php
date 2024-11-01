@@ -4,7 +4,7 @@ namespace App\DTOs;
 
 use Illuminate\Contracts\Support\Arrayable;
 
-class ForecastDTO implements Arrayable
+class ForecastDTO
 {
     public int $location_id;
     public string $date;
@@ -21,17 +21,5 @@ class ForecastDTO implements Arrayable
         $this->max_temp = $forecastData['max_temp'] ?? '';
         $this->weather = $forecastData['weather'] ?? '';
         $this->weather_icon = $forecastData['weather_icon'] ?? '';
-    }
-
-    public function toArray()
-    {
-        return [
-            'location_id' => $this->location_id,
-            'date' => $this->date,
-            'min_temp' => $this->min_temp,
-            'max_temp' => $this->max_temp,
-            'weather' => $this->weather,
-            'weather_icon' => $this->weather_icon,
-        ];
     }
 }

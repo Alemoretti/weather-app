@@ -5,7 +5,7 @@ namespace App\DTOs;
 use Illuminate\Contracts\Support\Arrayable;
 use App\Http\Requests\LocationRequest;
 
-class LocationDTO implements Arrayable
+class LocationDTO
 {
     public string $city;
     public string $state;
@@ -20,13 +20,5 @@ class LocationDTO implements Arrayable
         $this->units = $request->input('units') ?? 'metric';
         $this->name = trim($this->city . ($this->city && $this->state ? ', ' : '') . $this->state);
         $this->user_id = $user_id;
-    }
-
-    public function toArray()
-    {
-        return [
-            'name' => $this->name,
-            'user_id' => $this->user_id,
-        ];
     }
 }
