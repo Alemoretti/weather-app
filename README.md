@@ -38,6 +38,9 @@ Set Up Database
 Update the .env file with your database credentials and then run the following commands to create the database tables and seed the database.
 ```php artisan migrate```
 ```php artisan db:seed```
+The seed will create 2 test users:
+User: john@test.com | Password: John123
+User: mary@test.com | Password: Mary123
 
 Run the Development Server
 Start the PHP development server and the Vite development server.
@@ -53,3 +56,11 @@ Open your browser and navigate to http://localhost:8000 to access the Weather Ap
 - Composer
 - Node.js and npm
 - SQL, MySQL or any other supported database. The project was created using SQLite
+
+### Improvements yet to be done
+
+- Better error handling in the front-end (in the requests to the API)
+- Increase test coverage
+- Change to better pattern of structure like DDD
+- Improve the layout
+- front-end testing
