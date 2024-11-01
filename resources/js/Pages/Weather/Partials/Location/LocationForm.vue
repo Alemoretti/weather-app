@@ -74,23 +74,23 @@
 </template>
 
 <script setup lang="ts">
-import { ref, computed } from 'vue';
-import { useLocationStore } from '@/Store/LocationStore';
-import Spinner from '@/Components/LoadingSpinner.vue';
-import { Errors } from '@/types';
+import { ref, computed } from 'vue'
+import { useLocationStore } from '@/Store/LocationStore'
+import Spinner from '@/Components/LoadingSpinner.vue'
+import { Errors } from '@/types'
 
 defineProps({
   count: {
     type: Number,
     required: true
   }
-});
+})
 
-const locationStore = useLocationStore();
+const locationStore = useLocationStore()
 const city = ref<string>('')
 const state = ref<string>('')
 const isLoading = ref<boolean>(false)
-const validationErrors = computed<Errors>(() => locationStore.getErrors);
+const validationErrors = computed<Errors>(() => locationStore.getErrors)
 
 const submit = async () => {
   isLoading.value = true
@@ -100,15 +100,14 @@ const submit = async () => {
       city: city.value || '',
       state: state.value || '',
       units: 'metric'
-    });
+    })
 
-    city.value = '';
-    state.value = '';
-
+    city.value = ''
+    state.value = ''
   } catch (err) {
-    console.error(err);
+    console.error(err)
   } finally {
     isLoading.value = false
   }
-};
+}
 </script>
